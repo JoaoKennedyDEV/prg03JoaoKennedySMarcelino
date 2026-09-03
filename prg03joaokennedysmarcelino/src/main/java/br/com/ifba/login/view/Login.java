@@ -46,6 +46,25 @@ public class Login extends javax.swing.JFrame {
         txtLogin = new javax.swing.JTextField();
         TelaCadastrousuario = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        SelectGen = new javax.swing.JComboBox<>();
+        jTextField2 = new javax.swing.JTextField();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jPasswordField2 = new javax.swing.JPasswordField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -99,24 +118,80 @@ public class Login extends javax.swing.JFrame {
 
         getContentPane().add(TelaLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jLabel9.setText("teste");
+        TelaCadastrousuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout TelaCadastrousuarioLayout = new javax.swing.GroupLayout(TelaCadastrousuario);
-        TelaCadastrousuario.setLayout(TelaCadastrousuarioLayout);
-        TelaCadastrousuarioLayout.setHorizontalGroup(
-            TelaCadastrousuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TelaCadastrousuarioLayout.createSequentialGroup()
-                .addGap(232, 232, 232)
-                .addComponent(jLabel9)
-                .addContainerGap(262, Short.MAX_VALUE))
-        );
-        TelaCadastrousuarioLayout.setVerticalGroup(
-            TelaCadastrousuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TelaCadastrousuarioLayout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addComponent(jLabel9)
-                .addContainerGap(268, Short.MAX_VALUE))
-        );
+        jLabel9.setText("Nome completo:");
+        TelaCadastrousuario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 41, 111, -1));
+
+        jLabel10.setText("CPF:");
+        TelaCadastrousuario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 43, -1));
+
+        jLabel11.setText("Genero:");
+        TelaCadastrousuario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 43, -1));
+
+        jLabel12.setText("Data de Nascimento:");
+        TelaCadastrousuario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
+
+        SelectGen.setEditable(true);
+        SelectGen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Feminino", "Outros" }));
+        SelectGen.setToolTipText("");
+        SelectGen.addActionListener(this::SelectGenActionPerformed);
+        TelaCadastrousuario.add(SelectGen, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 124, -1));
+        TelaCadastrousuario.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 120, -1));
+
+        try {
+            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        TelaCadastrousuario.add(jFormattedTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 120, -1));
+
+        try {
+            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextField2.setToolTipText("");
+        TelaCadastrousuario.add(jFormattedTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 120, -1));
+
+        try {
+            jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        TelaCadastrousuario.add(jFormattedTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 120, -1));
+
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        TelaCadastrousuario.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 120, -1));
+        TelaCadastrousuario.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 120, -1));
+        TelaCadastrousuario.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 120, -1));
+        TelaCadastrousuario.add(jPasswordField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, 120, -1));
+
+        jLabel13.setText("Telefone:");
+        TelaCadastrousuario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+
+        jLabel14.setText("Email:");
+        TelaCadastrousuario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+
+        jLabel15.setText("Login:");
+        TelaCadastrousuario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
+
+        jLabel16.setText("Senha:");
+        TelaCadastrousuario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
+
+        jLabel17.setText("Confirmar Senha:");
+        TelaCadastrousuario.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        TelaCadastrousuario.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, -1));
+
+        jButton3.setBackground(new java.awt.Color(51, 102, 255));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setText("Confirmar");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        TelaCadastrousuario.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
 
         getContentPane().add(TelaCadastrousuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 410));
 
@@ -140,10 +215,28 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
-        jLabel6.setText("Certo");
         TelaLogin.setVisible(false);
         TelaCadastrousuario.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void SelectGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectGenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SelectGenActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        TelaCadastrousuario.setVisible(false);
+        TelaLogin.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -172,10 +265,24 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> SelectGen;
     private javax.swing.JPanel TelaCadastrousuario;
     private javax.swing.JPanel TelaLogin;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -184,6 +291,11 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JLabel txtMostrarLogin;
     private javax.swing.JLabel txtMostrarPassword;
