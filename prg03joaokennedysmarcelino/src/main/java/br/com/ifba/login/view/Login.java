@@ -8,6 +8,7 @@ package br.com.ifba.login.view;
  *
  * @author kennedy
  */
+import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
@@ -17,6 +18,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        TelaCadastrousuario.setVisible(false);
     }
 
     /**
@@ -49,21 +51,21 @@ public class Login extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         SelectGen = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        txtNomeCad = new javax.swing.JTextField();
+        txtCpfCad = new javax.swing.JFormattedTextField();
+        txtDataNascCad = new javax.swing.JFormattedTextField();
+        txtTelCad = new javax.swing.JFormattedTextField();
+        txtEmailCad = new javax.swing.JTextField();
+        txtLoginCad = new javax.swing.JTextField();
+        passSenhaCad = new javax.swing.JPasswordField();
+        passSenhaCadConfi = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -119,15 +121,19 @@ public class Login extends javax.swing.JFrame {
 
         TelaCadastrousuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("Nome completo:");
         TelaCadastrousuario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 41, 111, -1));
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setText("CPF:");
         TelaCadastrousuario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 43, -1));
 
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setText("Genero:");
-        TelaCadastrousuario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 43, -1));
+        TelaCadastrousuario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 50, -1));
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("Data de Nascimento:");
         TelaCadastrousuario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
 
@@ -136,61 +142,66 @@ public class Login extends javax.swing.JFrame {
         SelectGen.setToolTipText("");
         SelectGen.addActionListener(this::SelectGenActionPerformed);
         TelaCadastrousuario.add(SelectGen, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 124, -1));
-        TelaCadastrousuario.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 120, -1));
+        TelaCadastrousuario.add(txtNomeCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 120, -1));
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtCpfCad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        TelaCadastrousuario.add(jFormattedTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 120, -1));
+        TelaCadastrousuario.add(txtCpfCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 120, -1));
 
         try {
-            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtDataNascCad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField2.setToolTipText("");
-        TelaCadastrousuario.add(jFormattedTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 120, -1));
+        txtDataNascCad.setToolTipText("");
+        TelaCadastrousuario.add(txtDataNascCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 120, -1));
 
         try {
-            jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
+            txtTelCad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        TelaCadastrousuario.add(jFormattedTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 120, -1));
+        TelaCadastrousuario.add(txtTelCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 120, -1));
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
-        TelaCadastrousuario.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 120, -1));
-        TelaCadastrousuario.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 120, -1));
-        TelaCadastrousuario.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 120, -1));
-        TelaCadastrousuario.add(jPasswordField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, 120, -1));
+        txtEmailCad.addActionListener(this::txtEmailCadActionPerformed);
+        TelaCadastrousuario.add(txtEmailCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 120, -1));
+        TelaCadastrousuario.add(txtLoginCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 120, -1));
+        TelaCadastrousuario.add(passSenhaCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 120, -1));
+        TelaCadastrousuario.add(passSenhaCadConfi, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, 120, -1));
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setText("Telefone:");
         TelaCadastrousuario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
 
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Email:");
         TelaCadastrousuario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setText("Login:");
         TelaCadastrousuario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
 
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setText("Senha:");
         TelaCadastrousuario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
 
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel17.setText("Confirmar Senha:");
         TelaCadastrousuario.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        TelaCadastrousuario.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, -1));
+        btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(this::btnCancelActionPerformed);
+        TelaCadastrousuario.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, -1));
 
-        jButton3.setBackground(new java.awt.Color(51, 102, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setText("Confirmar");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
-        TelaCadastrousuario.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
+        btnConfirm.setBackground(new java.awt.Color(51, 102, 255));
+        btnConfirm.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnConfirm.setText("Confirmar");
+        btnConfirm.addActionListener(this::btnConfirmActionPerformed);
+        TelaCadastrousuario.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
 
         getContentPane().add(TelaCadastrousuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 410));
 
@@ -223,20 +234,36 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SelectGenActionPerformed
     // botao csncelsr para voltar para tela de login
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         TelaCadastrousuario.setVisible(false);
         TelaLogin.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtEmailCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailCadActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtEmailCadActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
+        if(txtNomeCad.getText().length()<8){
+           JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE); 
+        }else if(txtCpfCad.getText().trim().length()<11){
+            JOptionPane.showMessageDialog(null,"Campo de CPF esta incompleto!\n   Tente novamente!","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
+        }else if(txtDataNascCad.getText().trim().length()<6){
+            JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleto!\n   Tente novamente!","Data de nascimento Incorreto!",JOptionPane.ERROR_MESSAGE);
+        }else if(txtTelCad.getText().length()<11){
+            JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!\n   Tente novamente!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
+        }else if(txtLoginCad.getText().length()<5){
+            JOptionPane.showMessageDialog(null,"Login incorreto minimo de 5 caracteres!\n   Tente novamente!","Login Incorreto!",JOptionPane.ERROR_MESSAGE);
+        }else if(passSenhaCad.getPassword().equals(passSenhaCadConfi.getPassword())){
+            JOptionPane.showMessageDialog(null,"As Senhas nao conferem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else if(passSenhaCad.getText().length()<5){
+            JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null,"Usuario Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,12 +296,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> SelectGen;
     private javax.swing.JPanel TelaCadastrousuario;
     private javax.swing.JPanel TelaLogin;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnEnter;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -287,18 +311,21 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblProjName;
     private javax.swing.JLabel linkRegister;
+    private javax.swing.JPasswordField passSenhaCad;
+    private javax.swing.JPasswordField passSenhaCadConfi;
+    private javax.swing.JFormattedTextField txtCpfCad;
+    private javax.swing.JFormattedTextField txtDataNascCad;
+    private javax.swing.JTextField txtEmailCad;
     private javax.swing.JTextField txtLogin;
+    private javax.swing.JTextField txtLoginCad;
     private javax.swing.JLabel txtMostrarLogin;
     private javax.swing.JLabel txtMostrarPassword;
+    private javax.swing.JTextField txtNomeCad;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JFormattedTextField txtTelCad;
     // End of variables declaration//GEN-END:variables
 }
