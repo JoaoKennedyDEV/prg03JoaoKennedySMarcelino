@@ -9,6 +9,7 @@ package br.com.ifba.login.view;
  * @author kennedy
  */
 import javax.swing.JOptionPane;
+import java.util.Arrays;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
@@ -246,19 +247,21 @@ public class Login extends javax.swing.JFrame {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
+        char[] senha = passSenhaCad.getPassword();
+        char[] confirSenha = passSenhaCadConfi.getPassword();
         if(txtNomeCad.getText().length()<8){
            JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE); 
         }else if(txtCpfCad.getText().trim().length()<11){
             JOptionPane.showMessageDialog(null,"Campo de CPF esta incompleto!\n   Tente novamente!","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
         }else if(txtDataNascCad.getText().trim().length()<6){
             JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleto!\n   Tente novamente!","Data de nascimento Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(txtTelCad.getText().length()<11){
+        }else if(txtTelCad.getText().trim().length()<10){
             JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!\n   Tente novamente!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
         }else if(txtLoginCad.getText().length()<5){
             JOptionPane.showMessageDialog(null,"Login incorreto minimo de 5 caracteres!\n   Tente novamente!","Login Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(passSenhaCad.getPassword().equals(passSenhaCadConfi.getPassword())){
-            JOptionPane.showMessageDialog(null,"As Senhas nao conferem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(passSenhaCad.getText().length()<5){
+        }else if(!Arrays.equals(senha,confirSenha)){
+            JOptionPane.showMessageDialog(null,"As Senhas não coincidem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else if(senha.length<5){
             JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(null,"Usuario Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
