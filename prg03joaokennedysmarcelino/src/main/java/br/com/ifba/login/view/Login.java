@@ -213,13 +213,13 @@ public class Login extends javax.swing.JFrame {
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
         // TODO add your handling code here:
         Usuario usuario = new Usuario();
-        usuario.login = txtLogin.getText();
-        usuario.senha = txtPassword.getText();
+        usuario.setLogin(txtLogin.getText());
+        usuario.setSenha(txtPassword.getText());
         
         jLabel4.setText("Login Digitado:");
         jLabel5.setText("Senha Digitada:");
-        txtMostrarLogin.setText(usuario.login);
-        txtMostrarPassword.setText(usuario.senha);
+        txtMostrarLogin.setText(usuario.getLogin());
+        txtMostrarPassword.setText(usuario.getSenha());
         
     }//GEN-LAST:event_btnEnterActionPerformed
 
@@ -269,17 +269,15 @@ public class Login extends javax.swing.JFrame {
         }else if(br.com.ifba.usuario.validar.validar.contemPalavraProibida(txtLoginCad.getText())){
             JOptionPane.showMessageDialog(null,"Login contém palavra não permitida.","Login Incorreta!",JOptionPane.ERROR_MESSAGE);
         }else{
-            Usuario usuario = new Usuario();
-            usuario.nome = txtNomeCad.getText();
-            usuario.cpf = txtCpfCad.getText();
-            usuario.genero = SelectGen.getSelectedItem().toString();
-            usuario.dataNascimento = txtDataNascCad.getText();
-            usuario.telefone = txtTelCad.getText();
-            usuario.email = txtEmailCad.getText();
-            usuario.login = txtLoginCad.getText();
-            usuario.senha = passSenhaCad.getText();
+            Usuario usuario = new Usuario(txtNomeCad.getText(),txtCpfCad.getText(),txtLoginCad.getText(),passSenhaCad.getText());
+           
+            usuario.setGenero(SelectGen.getSelectedItem().toString());
+            usuario.setDataNascimento(txtDataNascCad.getText());
+            usuario.setTelefone(txtTelCad.getText());
+            usuario.setEmail(txtEmailCad.getText());
+
             
-            JOptionPane.showMessageDialog(null,"Usuario Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
 
