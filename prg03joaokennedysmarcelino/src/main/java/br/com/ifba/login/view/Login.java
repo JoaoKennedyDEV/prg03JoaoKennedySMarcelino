@@ -212,9 +212,15 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
         // TODO add your handling code here:
-        Usuario usuario = new Usuario();
-        usuario.setLogin(txtLogin.getText());
-        usuario.setSenha(txtPassword.getText());
+        Usuario usuario = new Usuario("kennedy","001002003004","JkennedySant","kennedy0123");
+        String logindigitado = txtLogin.getText();
+        String senhaDigitada = txtPassword.getText();
+        
+        if (usuario.autenticar(logindigitado, senhaDigitada)){
+            JOptionPane.showMessageDialog(null, "Acesso liberado!");
+        }else{
+            JOptionPane.showMessageDialog(null, "Acesso Negado!");
+        }
         
         jLabel4.setText("Login Digitado:");
         jLabel5.setText("Senha Digitada:");

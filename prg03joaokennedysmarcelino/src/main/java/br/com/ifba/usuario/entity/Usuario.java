@@ -9,7 +9,9 @@ package br.com.ifba.usuario.entity;
  *
  * @author kennedy
  */
-public class Usuario {
+import br.com.ifba.usuario.interfaces.Autenticavel;
+
+public class Usuario implements Autenticavel{
     private String nome;
     private String cpf;
     private String genero;
@@ -95,6 +97,9 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
+    public boolean autenticar(String login, String senha) {
+        return this.login.equals(login) && this.senha.equals(senha);
+    }
     
 }
