@@ -9,6 +9,7 @@ package br.com.ifba.login.view;
  * @author kennedy
  */
 import br.com.ifba.usuario.entity.Usuario;
+import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
 import java.util.Arrays;
 public class Login extends javax.swing.JFrame {
@@ -256,23 +257,30 @@ public class Login extends javax.swing.JFrame {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-        char[] senhas = passSenhaCad.getPassword();
-        char[] confirSenha = passSenhaCadConfi.getPassword();
-        if(txtNomeCad.getText().length()<8){
+        String nome = txtNomeCad.getText();
+        String login = txtLoginCad.getText();
+        String cpf = txtCpfCad.getText();
+        String senha = passSenhaCad.getText();
+        String genero = SelectGen.getSelectedItem().toString();
+        String DataNascimento = txtDataNascCad.getText();
+        String Telefone = txtTelCad.getText();
+        String email = txtEmailCad.getText();
+        String confirSenha = new String(passSenhaCadConfi.getPassword());
+        if(!Validar.nomeValido(nome)){
            JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE); 
-        }else if(txtCpfCad.getText().trim().length()<11){
+        }else if(!Validar.cpfValido(cpf)){
             JOptionPane.showMessageDialog(null,"Campo de CPF esta incompleto!\n   Tente novamente!","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(txtDataNascCad.getText().trim().length()<6){
+        }else if(!Validar.dataNascimentoValida(DataNascimento)){
             JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleto!\n   Tente novamente!","Data de nascimento Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(txtTelCad.getText().trim().length()<10){
+        }else if(!Validar.telefoneValido(Telefone)){
             JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!\n   Tente novamente!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(txtLoginCad.getText().length()<5){
+        }else if(!Validar.loginValido(login)){
             JOptionPane.showMessageDialog(null,"Login incorreto minimo de 5 caracteres!\n   Tente novamente!","Login Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Arrays.equals(senhas,confirSenha)){
+        }else if(!Validar.senhasIguais(senha, confirSenha)){
             JOptionPane.showMessageDialog(null,"As Senhas não coincidem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(senhas.length<5){
+        }else if(!Validar.senhaForte(senha)){
             JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(br.com.ifba.usuario.validar.validar.contemPalavraProibida(txtLoginCad.getText())){
+        }else if(Validar.contemPalavraProibida(login)){
             JOptionPane.showMessageDialog(null,"Login contém palavra não permitida.","Login Incorreta!",JOptionPane.ERROR_MESSAGE);
         }else{
             Usuario usuario = new Usuario(txtNomeCad.getText(),txtCpfCad.getText(),txtLoginCad.getText(),passSenhaCad.getText());
@@ -281,8 +289,6 @@ public class Login extends javax.swing.JFrame {
             usuario.setDataNascimento(txtDataNascCad.getText());
             usuario.setTelefone(txtTelCad.getText());
             usuario.setEmail(txtEmailCad.getText());
-
-            
             JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
