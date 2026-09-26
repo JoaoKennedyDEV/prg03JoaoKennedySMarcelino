@@ -82,6 +82,10 @@ public class Usuario implements Autenticavel{
         return perfilAtivo; 
     }
     
+    public String getNivelAcesso() {
+        return "PADRAO";
+    }
+    
     @Override
     public boolean autenticar(String login, String senha) {
         return this.login.equals(login) && this.senha.equals(senha);
