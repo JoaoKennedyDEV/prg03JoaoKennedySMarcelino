@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author kennedy
  */
-public class UsuarioTeste {
+public class UsuarioTest {
     
     @Test
     public void DeveautenticarQuandoDadosCorreto(){

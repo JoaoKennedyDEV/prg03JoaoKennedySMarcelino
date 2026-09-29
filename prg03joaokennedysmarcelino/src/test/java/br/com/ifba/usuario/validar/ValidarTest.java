@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author kennedy
  */
-public class ValidarTeste {
+public class ValidarTest {
     @Test
     void cpfValido_retornaTrue() {
         assertTrue(Validar.cpfValido("12345678900"));
