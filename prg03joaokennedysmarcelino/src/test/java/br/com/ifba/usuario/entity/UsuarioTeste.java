@@ -18,19 +18,16 @@ public class UsuarioTeste {
         Pessoa pessoa = new Pessoa("Kennedy Santos", "12345678900");
         Usuario usuario = new Usuario(pessoa, "testLogin", "testSenha");
         
-        boolean resultado = usuario.autenticar("testLogin","testSenha");
-        
-        assertTrue(resultado);
+        assertTrue(usuario.autenticar("testLogin", "testSenha").equals("Bem-vindo, testLogin"));
     }
     
+
     @Test
-    public void naoDeveautenticarQuandoDadosIncorreto(){
+    public void naoDeveAutenticarQuandoDadosIncorretos(){
         Pessoa pessoa = new Pessoa("Kennedy Santos", "12345678900");
         Usuario usuario = new Usuario(pessoa, "testLogin", "testSenha");
-        
-        boolean resultado = usuario.autenticar("testLogin","SenhaErrada");
-        
-        assertFalse(resultado);
+    
+        assertTrue(usuario.autenticar("testLogin", "senhaErrada").equals("Acesso negado"));
     }
     
     @Test
@@ -41,7 +38,7 @@ public class UsuarioTeste {
         assertTrue(usuario.getNivelAcesso().equals("BASICO"));
     }
     
-     @Test
+    @Test
     public void usuarioAdminDeveDevolverSeuNivelDeAcesso() {
         Pessoa pessoa = new Pessoa("Kennedy santos", "98765432100");
         UsuarioAdmin usuario = new UsuarioAdmin(pessoa, "kennedyadmin", "senhatest");
@@ -49,6 +46,7 @@ public class UsuarioTeste {
         assertTrue(usuario.getNivelAcesso().equals("ADMIN"));
     }
     
+    @Test
     public void usuarioAdminDeveSerReconhecidoComoUsuario()  {
         Pessoa pessoa = new Pessoa("Kennedy santos", "98765432100");
         UsuarioAdmin usuario = new UsuarioAdmin(pessoa, "kennedyadmin", "senhatest");

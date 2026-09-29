@@ -9,7 +9,7 @@ package br.com.ifba.usuario.interfaces;
  * @author kennedy
  */
 public interface Autenticavel {
-    boolean autenticar(String login, String senha);
+    String autenticar(String login, String senha);
 }
 
 

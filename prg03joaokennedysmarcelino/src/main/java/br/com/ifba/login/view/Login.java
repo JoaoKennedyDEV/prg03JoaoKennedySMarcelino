@@ -10,6 +10,10 @@ package br.com.ifba.login.view;
  */
 import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Usuario;
+import br.com.ifba.usuario.entity.UsuarioAdmin;
+import br.com.ifba.usuario.entity.UsuarioBasico;
+import br.com.ifba.usuario.interfaces.Autenticavel;
+import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
 import java.util.Arrays;
@@ -23,6 +27,14 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         TelaCadastrousuario.setVisible(false);
+        Pessoa p1 = new Pessoa("Kennedy Santos", "00400300201");
+        Pessoa p2 = new Pessoa("joao kennedy", "00100200304");
+
+        Autenticavel comum = new UsuarioBasico(p1, "kennedySants", "senhaBasica");
+        Autenticavel admin = new UsuarioAdmin(p2, "kennedyAdmin", "senhadeadmin");
+
+        System.out.println(ProcessoDeAcesso.processar(comum, "kennedySants", "senhaBasica"));
+        System.out.println(ProcessoDeAcesso.processar(admin, "kennedyAdmin", "senhadeadmin"));
     }
 
     /**
@@ -119,7 +131,7 @@ public class Login extends javax.swing.JFrame {
         TelaLogin.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 347, 88, -1));
 
         txtMostrarLogin.setText(" ");
-        TelaLogin.add(txtMostrarLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 347, 106, -1));
+        TelaLogin.add(txtMostrarLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 340, -1));
 
         getContentPane().add(TelaLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -219,11 +231,8 @@ public class Login extends javax.swing.JFrame {
         String logindigitado = txtLogin.getText();
         String senhaDigitada = txtPassword.getText();
         
-        if (usuario.autenticar(logindigitado, senhaDigitada)){
-            JOptionPane.showMessageDialog(null, "Acesso liberado!");
-        }else{
-            JOptionPane.showMessageDialog(null, "Acesso Negado!");
-        }
+        String resultado = usuario.autenticar(logindigitado, senhaDigitada);
+        JOptionPane.showMessageDialog(null, resultado);
         
         jLabel4.setText("Login Digitado:");
         jLabel5.setText("Senha Digitada:");

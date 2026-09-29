@@ -21,4 +21,13 @@ public class UsuarioAdmin extends Usuario{
     public void gerenciarUsuarios() {
         System.out.println("Acesso liberado ao painel de gerenciamento de usuários.");
     }
+    
+    @Override
+    public String autenticar(String login, String senha) {
+        String resultado = super.autenticar(login, senha);
+        if (resultado.equals("Bem-vindo, " + login)) {
+            return "Acesso administrativo liberado: " + login;
+        }
+        return resultado;
+    }
 }

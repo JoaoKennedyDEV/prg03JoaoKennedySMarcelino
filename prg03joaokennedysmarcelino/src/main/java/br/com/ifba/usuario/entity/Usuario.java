@@ -35,6 +35,11 @@ public class Usuario implements Autenticavel{
         this.status = Status.INATIVO;
     }
     
+    public Usuario(Pessoa pessoa, String login, String senha, Perfil perfilInicial) {
+        this(pessoa, login, senha);
+        adicionarPerfil(perfilInicial);
+    }
+    
     public void adicionarPerfil(Perfil perfil) {
         this.perfis.add(perfil);
         if(this.perfilAtivo == null){
@@ -87,8 +92,11 @@ public class Usuario implements Autenticavel{
     }
     
     @Override
-    public boolean autenticar(String login, String senha) {
-        return this.login.equals(login) && this.senha.equals(senha);
+    public String autenticar(String login, String senha) {
+        if (this.login.equals(login) && this.senha.equals(senha)) {
+                return "Bem-vindo, " + login;
+        }
+        return "Acesso negado";
     }
     
 }
