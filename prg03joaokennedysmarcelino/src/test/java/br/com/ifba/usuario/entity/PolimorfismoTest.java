@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author kennedy
  */
-public class PolimorfismoTeste {
+public class PolimorfismoTest {
 
     @Test
     public void usuarioComumAutenticaPeloProprioCanal() {

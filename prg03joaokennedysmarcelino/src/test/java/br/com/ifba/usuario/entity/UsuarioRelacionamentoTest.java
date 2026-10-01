@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author kennedy
  */
-public class UsuarioRelacionamentoTeste {
+public class UsuarioRelacionamentoTest {
 @Test
     public void deveDevolverAPessoaRelacionada() {
         Pessoa pessoa = new Pessoa("Kennedy Santos", "12345678900");
