@@ -63,7 +63,7 @@ public class Usuario implements Autenticavel{
         this.login = login;
     }
 
-    public String getSenha() {
+    private String getSenha() {
         return senha;
     }
 

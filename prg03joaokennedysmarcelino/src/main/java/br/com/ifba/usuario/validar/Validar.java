@@ -24,15 +24,15 @@ public class Validar {
     }
 
     public static boolean cpfValido(String cpf) {
-        return cpf != null && cpf.length() >= 9;
+        return cpf != null && cpf.replaceAll("[^0-9]", "").length() == 11;
     }
 
     public static boolean dataNascimentoValida(String data) {
-        return data != null && data.length() >= 6;
+        return data != null && data.replaceAll("[^0-9]", "").length() == 8;
     }
 
     public static boolean telefoneValido(String telefone) {
-        return telefone != null && telefone.length() >= 11;
+        return telefone != null && telefone.replaceAll("[^0-9]", "").length() == 11;
     }
 
     public static boolean loginValido(String login) {
