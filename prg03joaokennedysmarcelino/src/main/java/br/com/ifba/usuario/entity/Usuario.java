@@ -13,6 +13,7 @@ import br.com.ifba.usuario.interfaces.Autenticavel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Usuario implements Autenticavel{
     private Pessoa pessoa;
@@ -45,6 +46,15 @@ public class Usuario implements Autenticavel{
         if(this.perfilAtivo == null){
             this.perfilAtivo = perfil;
         }
+    }
+    
+    // login é a chave de acesso do sistema e é único por usuario
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario outro = (Usuario) o;
+        return Objects.equals(login, outro.login);
     }
     
     public Pessoa getPessoa() {
@@ -97,6 +107,11 @@ public class Usuario implements Autenticavel{
                 return "Bem-vindo, " + login;
         }
         return "Acesso negado";
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(login);
     }
     
 }

@@ -4,6 +4,8 @@
  */
 package br.com.ifba.usuario.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -54,4 +56,15 @@ public class UsuarioTest {
         assertTrue(usuario instanceof Usuario);
     }
     
+    @Test
+    public void doisUsuariosComMesmoLoginDevemSerIguais() {
+        Pessoa pessoa = new Pessoa("Kennedy Santos", "12345678900");
+        Usuario um = new Usuario(pessoa, "kennedy01", "senha1");
+        Usuario outro = new Usuario(pessoa, "kennedy01", "senha2");
+
+        List<Usuario> lista = new ArrayList<>();
+        lista.add(um);
+
+        assertTrue(lista.contains(outro));
+    }
 }

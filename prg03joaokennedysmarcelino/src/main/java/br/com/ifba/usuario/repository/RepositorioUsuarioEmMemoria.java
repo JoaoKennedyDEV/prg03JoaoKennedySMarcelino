@@ -25,7 +25,17 @@ public class RepositorioUsuarioEmMemoria {
     public List<Usuario> listarTodos(){
         return new ArrayList<>(usuarios);
     }
-    public void buscarPorLogin(String login){
+    
+    public Usuario buscarPorLoginComLista(String login) {
+        for (Usuario user : usuarios) {
+            if (user.getLogin().equals(login)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    public Usuario buscarPorLogin(String login){
        return porLogin.get(login); 
     }
 }

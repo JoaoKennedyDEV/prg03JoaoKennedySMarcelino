@@ -13,6 +13,7 @@ import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.entity.UsuarioAdmin;
 import br.com.ifba.usuario.entity.UsuarioBasico;
 import br.com.ifba.usuario.interfaces.Autenticavel;
+import br.com.ifba.usuario.repository.RepositorioUsuarioEmMemoria;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-
+    private final RepositorioUsuarioEmMemoria repositorio = new RepositorioUsuarioEmMemoria();
     /**
      * Creates new form Login
      */
@@ -226,13 +227,15 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
         // TODO add your handling code here:
-        Pessoa pessoa = new Pessoa("kennedy", "001002003004");
-        Usuario usuario = new Usuario(pessoa,"JkennedySant","kennedy0123");
         String logindigitado = txtLogin.getText();
         String senhaDigitada = txtPassword.getText();
-        
-        String resultado = usuario.autenticar(logindigitado, senhaDigitada);
-        JOptionPane.showMessageDialog(null, resultado);
+        Usuario usuario = repositorio.buscarPorLogin(logindigitado);
+        if(usuario == null){
+            JOptionPane.showMessageDialog(null,"Acesso Negado"," Erro no Login!",JOptionPane.ERROR_MESSAGE);
+        }else{
+            String resultado = usuario.autenticar(logindigitado, senhaDigitada);
+            JOptionPane.showMessageDialog(null, resultado);
+        }
     }//GEN-LAST:event_btnEnterActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
@@ -287,6 +290,8 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
         }else if(Validar.contemPalavraProibida(login)){
             JOptionPane.showMessageDialog(null,"Login contém palavra não permitida.","Login Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else if(repositorio.buscarPorLogin(login) != null){
+            JOptionPane.showMessageDialog(null,"Login ja existe."," Erro no Login!",JOptionPane.ERROR_MESSAGE);
         }else{
             Pessoa pessoa = new Pessoa(txtNomeCad.getText(),txtCpfCad.getText());
             Usuario usuario = new Usuario(pessoa,txtLoginCad.getText(),passSenhaCad.getText());
@@ -295,6 +300,7 @@ public class Login extends javax.swing.JFrame {
             pessoa.setDataNascimento(txtDataNascCad.getText());
             pessoa.setTelefone(txtTelCad.getText());
             pessoa.setEmail(txtEmailCad.getText());
+            repositorio.cadastrar(usuario);
             JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
