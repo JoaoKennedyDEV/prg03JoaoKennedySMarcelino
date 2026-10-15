@@ -27,7 +27,6 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        telaCadastroUsuario.setVisible(false);
         Pessoa p1 = new Pessoa("Kennedy Santos", "00400300201");
         Pessoa p2 = new Pessoa("joao kennedy", "00100200304");
 
@@ -62,27 +61,6 @@ public class Login extends javax.swing.JFrame {
         txtMostrarPassword = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtMostrarLogin = new javax.swing.JLabel();
-        telaCadastroUsuario = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        selectGen = new javax.swing.JComboBox<>();
-        txtNomeCad = new javax.swing.JTextField();
-        txtCpfCad = new javax.swing.JFormattedTextField();
-        txtDataNascCad = new javax.swing.JFormattedTextField();
-        txtTelCad = new javax.swing.JFormattedTextField();
-        txtEmailCad = new javax.swing.JTextField();
-        txtLoginCad = new javax.swing.JTextField();
-        passSenhaCad = new javax.swing.JPasswordField();
-        passSenhaCadConfi = new javax.swing.JPasswordField();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        btnCancel = new javax.swing.JButton();
-        btnConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -136,92 +114,6 @@ public class Login extends javax.swing.JFrame {
 
         getContentPane().add(telaLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        telaCadastroUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Nome completo:");
-        telaCadastroUsuario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 41, 111, -1));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("CPF:");
-        telaCadastroUsuario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 43, -1));
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel11.setText("Genero:");
-        telaCadastroUsuario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 50, -1));
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel12.setText("Data de Nascimento:");
-        telaCadastroUsuario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
-
-        selectGen.setEditable(true);
-        selectGen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Feminino", "Outros" }));
-        selectGen.setToolTipText("");
-        selectGen.addActionListener(this::selectGenActionPerformed);
-        telaCadastroUsuario.add(selectGen, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 124, -1));
-        telaCadastroUsuario.add(txtNomeCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 120, -1));
-
-        try {
-            txtCpfCad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        telaCadastroUsuario.add(txtCpfCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 120, -1));
-
-        try {
-            txtDataNascCad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtDataNascCad.setToolTipText("");
-        telaCadastroUsuario.add(txtDataNascCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 120, -1));
-
-        try {
-            txtTelCad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        telaCadastroUsuario.add(txtTelCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 120, -1));
-
-        txtEmailCad.addActionListener(this::txtEmailCadActionPerformed);
-        telaCadastroUsuario.add(txtEmailCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 120, -1));
-        telaCadastroUsuario.add(txtLoginCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 120, -1));
-        telaCadastroUsuario.add(passSenhaCad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 120, -1));
-        telaCadastroUsuario.add(passSenhaCadConfi, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, 120, -1));
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel13.setText("Telefone:");
-        telaCadastroUsuario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel14.setText("Email:");
-        telaCadastroUsuario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel15.setText("Login:");
-        telaCadastroUsuario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel16.setText("Senha:");
-        telaCadastroUsuario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel17.setText("Confirmar Senha:");
-        telaCadastroUsuario.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
-
-        btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnCancel.setText("Cancelar");
-        btnCancel.addActionListener(this::btnCancelActionPerformed);
-        telaCadastroUsuario.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, -1));
-
-        btnConfirm.setBackground(new java.awt.Color(51, 102, 255));
-        btnConfirm.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnConfirm.setText("Confirmar");
-        btnConfirm.addActionListener(this::btnConfirmActionPerformed);
-        telaCadastroUsuario.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
-
-        getContentPane().add(telaCadastroUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 410));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -245,65 +137,9 @@ public class Login extends javax.swing.JFrame {
     //Link para tela de cadastro
     private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseClicked
         // TODO add your handling code here:
-        telaLogin.setVisible(false);
-        telaCadastroUsuario.setVisible(true);
+        this.dispose();
+        new UsuarioCadastrar().setVisible(true);
     }//GEN-LAST:event_linkRegisterMouseClicked
-
-    private void selectGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectGenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectGenActionPerformed
-    // botao csncelsr para voltar para tela de login
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        telaCadastroUsuario.setVisible(false);
-        telaLogin.setVisible(true);
-    }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void txtEmailCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailCadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailCadActionPerformed
-
-    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        // TODO add your handling code here:
-        String nome = txtNomeCad.getText();
-        String login = txtLoginCad.getText();
-        String cpf = txtCpfCad.getText();
-        String senha = passSenhaCad.getText();
-        String genero = selectGen.getSelectedItem().toString();
-        String DataNascimento = txtDataNascCad.getText();
-        String Telefone = txtTelCad.getText();
-        String email = txtEmailCad.getText();
-        String confirSenha = new String(passSenhaCadConfi.getPassword());
-        if(!Validar.nomeValido(nome)){
-           JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE); 
-        }else if(!Validar.cpfValido(cpf)){
-            JOptionPane.showMessageDialog(null,"Campo de CPF esta incompleto!\n   Tente novamente!","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.dataNascimentoValida(DataNascimento)){
-            JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleto!\n   Tente novamente!","Data de nascimento Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.telefoneValido(Telefone)){
-            JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!\n   Tente novamente!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.loginValido(login)){
-            JOptionPane.showMessageDialog(null,"Login incorreto minimo de 5 caracteres!\n   Tente novamente!","Login Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.senhasIguais(senha, confirSenha)){
-            JOptionPane.showMessageDialog(null,"As Senhas não coincidem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.senhaForte(senha)){
-            JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(Validar.contemPalavraProibida(login)){
-            JOptionPane.showMessageDialog(null,"Login contém palavra não permitida.","Login Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(repositorio.buscarPorLogin(login) != null){
-            JOptionPane.showMessageDialog(null,"Login ja existe."," Erro no Login!",JOptionPane.ERROR_MESSAGE);
-        }else{
-            Pessoa pessoa = new Pessoa(txtNomeCad.getText(),txtCpfCad.getText());
-            Usuario usuario = new Usuario(pessoa,txtLoginCad.getText(),passSenhaCad.getText());
-           
-            pessoa.setGenero(selectGen.getSelectedItem().toString());
-            pessoa.setDataNascimento(txtDataNascCad.getText());
-            pessoa.setTelefone(txtTelCad.getText());
-            pessoa.setEmail(txtEmailCad.getText());
-            repositorio.cadastrar(usuario);
-            JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
      * @param args the command line arguments
@@ -332,40 +168,19 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnEnter;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblProjName;
     private javax.swing.JLabel linkRegister;
     private javax.swing.JLabel logoUser;
-    private javax.swing.JPasswordField passSenhaCad;
-    private javax.swing.JPasswordField passSenhaCadConfi;
-    private javax.swing.JComboBox<String> selectGen;
-    private javax.swing.JPanel telaCadastroUsuario;
     private javax.swing.JPanel telaLogin;
-    private javax.swing.JFormattedTextField txtCpfCad;
-    private javax.swing.JFormattedTextField txtDataNascCad;
-    private javax.swing.JTextField txtEmailCad;
     private javax.swing.JTextField txtLogin;
-    private javax.swing.JTextField txtLoginCad;
     private javax.swing.JLabel txtMostrarLogin;
     private javax.swing.JLabel txtMostrarPassword;
-    private javax.swing.JTextField txtNomeCad;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JFormattedTextField txtTelCad;
     // End of variables declaration//GEN-END:variables
 }

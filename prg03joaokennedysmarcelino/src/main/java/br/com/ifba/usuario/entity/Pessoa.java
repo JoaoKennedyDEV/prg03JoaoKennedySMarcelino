@@ -4,13 +4,18 @@
  */
 package br.com.ifba.usuario.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 /**
  *
  * @author kennedy
  */
+@Entity
 public class Pessoa {
     
     private String nome;
+    @Id
     private String cpf;
     private String genero;
     private String dataNascimento;
