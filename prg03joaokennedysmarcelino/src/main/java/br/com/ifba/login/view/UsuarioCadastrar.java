@@ -13,21 +13,24 @@ import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.entity.UsuarioAdmin;
 import br.com.ifba.usuario.entity.UsuarioBasico;
+import br.com.ifba.usuario.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.interfaces.Autenticavel;
-import br.com.ifba.usuario.repository.RepositorioUsuarioEmMemoria;
+import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
+import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 public class UsuarioCadastrar extends javax.swing.JFrame {
     
-    private final RepositorioUsuarioEmMemoria repositorio = new RepositorioUsuarioEmMemoria();
+    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioCadastrar.class.getName());
-
+    private UsuarioListar telaListar;
     /**
      * Creates new form UsuarioCadastrar
      */
     public UsuarioCadastrar() {
         initComponents();
+        this.telaListar = telaListar;
     }
 
     /**
@@ -182,7 +185,6 @@ public class UsuarioCadastrar extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();  
-        new Login().setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
@@ -212,7 +214,7 @@ public class UsuarioCadastrar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
         }else if(Validar.contemPalavraProibida(login)){
             JOptionPane.showMessageDialog(null,"Login contém palavra não permitida.","Login Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(repositorio.buscarPorLogin(login) != null){
+        }else if(repositorio.existePorLogin(login)){
             JOptionPane.showMessageDialog(null,"Login ja existe."," Erro no Login!",JOptionPane.ERROR_MESSAGE);
         }else{
             Pessoa pessoa = new Pessoa(txtNomeCad.getText(),txtCpfCad.getText());
@@ -222,8 +224,15 @@ public class UsuarioCadastrar extends javax.swing.JFrame {
             pessoa.setDataNascimento(txtDataNascCad.getText());
             pessoa.setTelefone(txtTelCad.getText());
             pessoa.setEmail(txtEmailCad.getText());
-            repositorio.cadastrar(usuario);
-            JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
+            try {
+                repositorio.cadastrar(usuario);
+                telaListar.recarregar();
+                JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                
+            }catch (ErroDePersistenciaException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao cadastrar", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
 

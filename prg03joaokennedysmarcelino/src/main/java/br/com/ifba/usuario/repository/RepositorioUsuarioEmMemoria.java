@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 
 /**
  *
@@ -26,16 +27,20 @@ public class RepositorioUsuarioEmMemoria {
         return new ArrayList<>(usuarios);
     }
     
-    public Usuario buscarPorLoginComLista(String login) {
+     public Usuario buscarPorLoginComLista(String login) {
         for (Usuario user : usuarios) {
             if (user.getLogin().equals(login)) {
                 return user;
             }
         }
-        return null;
+        throw new UsuarioNaoEncontradoException(login);
     }
-    
+
     public Usuario buscarPorLogin(String login){
-       return porLogin.get(login); 
+        Usuario usuario = porLogin.get(login);
+        if (usuario == null) {
+            throw new UsuarioNaoEncontradoException(login);
+        }
+        return usuario;
     }
 }

@@ -12,16 +12,18 @@ import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.entity.UsuarioAdmin;
 import br.com.ifba.usuario.entity.UsuarioBasico;
+import br.com.ifba.usuario.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.interfaces.Autenticavel;
-import br.com.ifba.usuario.repository.RepositorioUsuarioEmMemoria;
+import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
 import java.util.Arrays;
+import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-    private final RepositorioUsuarioEmMemoria repositorio = new RepositorioUsuarioEmMemoria();
+    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
     /**
      * Creates new form Login
      */
@@ -121,12 +123,15 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String logindigitado = txtLogin.getText();
         String senhaDigitada = txtPassword.getText();
-        Usuario usuario = repositorio.buscarPorLogin(logindigitado);
-        if(usuario == null){
-            JOptionPane.showMessageDialog(null,"Acesso Negado"," Erro no Login!",JOptionPane.ERROR_MESSAGE);
-        }else{
+        try {
+            Usuario usuario = repositorio.buscarPorLogin(logindigitado);
             String resultado = usuario.autenticar(logindigitado, senhaDigitada);
             JOptionPane.showMessageDialog(null, resultado);
+        } catch (UsuarioNaoEncontradoException e) {
+            // mensagem genérica: não revela se o login existe
+            JOptionPane.showMessageDialog(null, "Acesso Negado", " Erro no Login!", JOptionPane.ERROR_MESSAGE);
+        } catch (ErroDePersistenciaException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEnterActionPerformed
 
