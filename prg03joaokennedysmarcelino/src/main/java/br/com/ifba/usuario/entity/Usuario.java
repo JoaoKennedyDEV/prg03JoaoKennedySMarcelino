@@ -10,10 +10,7 @@ package br.com.ifba.usuario.entity;
  * @author kennedy
  */
 import br.com.ifba.usuario.interfaces.Autenticavel;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,9 +19,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Autenticavel{
+    @OneToOne(cascade = CascadeType.ALL)
     private Pessoa pessoa;
+    @Transient
     private List<Perfil> perfis;
+    @Transient
     private Perfil perfilAtivo; 
+    @Enumerated(EnumType.STRING)
     private Status status;
     @Id
     @Column(unique = true)
@@ -34,6 +35,7 @@ public class Usuario implements Autenticavel{
     
     
     public Usuario(){
+        this.perfis = new ArrayList<>();
     }
     
     public Usuario(Pessoa pessoa,String login,String senha){

@@ -15,6 +15,9 @@ import br.com.ifba.usuario.repository.RepositorioUsuarioEmMemoria;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
+import br.com.ifba.usuario.exception.ErroDePersistenciaException;
+import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
+import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
 import br.com.ifba.usuario.entity.Usuario;
 
 /**
@@ -25,19 +28,30 @@ public class UsuarioEditar extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioEditar.class.getName());
 
-    /**
-     * Creates new form UsuarioListar
-     */
     private UsuarioListar telaListar;
+    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
+    
     private Usuario usuario;
     public UsuarioEditar() {
         initComponents();
-        setLocationRelativeTo(null);
-        this.telaListar = telaListar;
-        this.usuario = usuario;
+        //setLocationRelativeTo(null);
 
+    }
+    
+    public UsuarioEditar(Usuario usuario, UsuarioListar telaListar) {
+        this();
+        this.usuario = usuario;
+        this.telaListar = telaListar;
+        // fechar só esta janela, sem encerrar o programa inteiro
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        preencherCampos();
+    }
+
+    private void preencherCampos() {
         txtNomeCad.setText(usuario.getPessoa().getNome());
         txtCpfCad.setText(usuario.getPessoa().getCpf());
+        txtCpfCad.setEditable(false);   // CPF é o @Id de Pessoa: não pode mudar
         selectGen.setSelectedItem(usuario.getPessoa().getGenero());
         txtDataNascCad.setText(usuario.getPessoa().getDataNascimento());
         txtTelCad.setText(usuario.getPessoa().getTelefone());
@@ -83,7 +97,7 @@ public class UsuarioEditar extends javax.swing.JFrame {
         telaCadastroUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Nome completo:");
+        jLabel9.setText("Nome");
         telaCadastroUsuario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 41, 111, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -165,7 +179,6 @@ public class UsuarioEditar extends javax.swing.JFrame {
         btnConfirm.addActionListener(this::btnConfirmActionPerformed);
         telaCadastroUsuario.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
 
-        selectStatus.setBackground(new java.awt.Color(51, 51, 51));
         selectStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "INATIVO" }));
         telaCadastroUsuario.add(selectStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 120, -1));
 
@@ -188,45 +201,46 @@ public class UsuarioEditar extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        new Login().setVisible(true);
+        //new Login().setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
         
         String nome = txtNomeCad.getText();
-        String cpf = txtCpfCad.getText();
-        String senha = passSenhaCad.getText();
-        String genero = selectGen.getSelectedItem().toString();
-        String DataNascimento = txtDataNascCad.getText();
-        String Telefone = txtTelCad.getText();
-        String email = txtEmailCad.getText();
+        String dataNasc = txtDataNascCad.getText();
+        String telefone = txtTelCad.getText();
+        String senha = new String(passSenhaCad.getPassword());
         String confirSenha = new String(passSenhaCadConfi.getPassword());
+
         if(!Validar.nomeValido(nome)){
             JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.cpfValido(cpf)){
-            JOptionPane.showMessageDialog(null,"Campo de CPF esta incompleto!\n   Tente novamente!","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.dataNascimentoValida(DataNascimento)){
-            JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleto!\n   Tente novamente!","Data de nascimento Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.telefoneValido(Telefone)){
-            JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!\n   Tente novamente!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.senhasIguais(senha, confirSenha)){
-            JOptionPane.showMessageDialog(null,"As Senhas não coincidem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.senhaForte(senha)){
-            JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else if(!Validar.dataNascimentoValida(dataNasc)){
+            JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleta!","Data Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else if(!Validar.telefoneValido(telefone)){
+            JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
+        }else if(!senha.isEmpty() && !Validar.senhasIguais(senha, confirSenha)){
+            JOptionPane.showMessageDialog(null,"As Senhas não coincidem!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
+        }else if(!senha.isEmpty() && !Validar.senhaForte(senha)){
+            JOptionPane.showMessageDialog(null,"Senha com no minimo 8 caracteres","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
         }else{
-            usuario.getPessoa().setNome(nome);
-            usuario.getPessoa().setCpf(cpf);
-            usuario.getPessoa().setGenero(selectGen.getSelectedItem().toString());
-            usuario.getPessoa().setDataNascimento(txtDataNascCad.getText());
-            usuario.getPessoa().setTelefone(txtTelCad.getText());
-            usuario.getPessoa().setEmail(txtEmailCad.getText());
+            Pessoa pessoa = usuario.getPessoa();
+            pessoa.setNome(nome);
+            pessoa.setGenero(selectGen.getSelectedItem().toString());
+            pessoa.setDataNascimento(dataNasc);
+            pessoa.setTelefone(telefone);
+            pessoa.setEmail(txtEmailCad.getText());
             usuario.setStatus(Status.valueOf(selectStatus.getSelectedItem().toString()));
-            if (!senha.isEmpty()) {          // senha em branco = mantém a atual
+            if (!senha.isEmpty()) {
                 usuario.setSenha(senha);
             }
-            //telaListar.carregarTabela();     // atualiza a tabela
-            dispose();
+            try {
+                repositorio.atualizar(usuario);
+                telaListar.recarregar();
+                dispose();
+            } catch (UsuarioNaoEncontradoException | ErroDePersistenciaException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao atualizar", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
 

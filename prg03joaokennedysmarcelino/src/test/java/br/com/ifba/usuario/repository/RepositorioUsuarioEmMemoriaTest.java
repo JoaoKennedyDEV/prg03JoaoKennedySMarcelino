@@ -8,6 +8,7 @@ import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Usuario;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 
 /**
  *
@@ -41,12 +42,32 @@ public class RepositorioUsuarioEmMemoriaTest {
     }
 
     @Test
-    public void buscarPorLoginInexistenteDevolveNull() {
+    public void buscarPorLoginInexistenteDeveLancarExcecao() {
         RepositorioUsuarioEmMemoria repo = new RepositorioUsuarioEmMemoria();
         repo.cadastrar(novoUsuario("ana"));
 
-        assertTrue(repo.buscarPorLogin("naoexiste") == null);
-        assertTrue(repo.buscarPorLoginComLista("naoexiste") == null);
+        assertThrows(UsuarioNaoEncontradoException.class, () -> repo.buscarPorLogin("naoexiste"));
+        assertThrows(UsuarioNaoEncontradoException.class, () -> repo.buscarPorLoginComLista("naoexiste"));
+    }
+
+    @Test
+    public void buscarPorLoginExistenteNaoDeveLancarExcecao() {
+        RepositorioUsuarioEmMemoria repo = new RepositorioUsuarioEmMemoria();
+        repo.cadastrar(novoUsuario("ana"));
+
+        assertDoesNotThrow(() -> repo.buscarPorLogin("ana"));
+        assertDoesNotThrow(() -> repo.buscarPorLoginComLista("ana"));
+    }
+
+    @Test
+    public void mensagemDaExcecaoDeveConterOLogin() {
+        RepositorioUsuarioEmMemoria repo = new RepositorioUsuarioEmMemoria();
+
+        UsuarioNaoEncontradoException e = assertThrows(
+                UsuarioNaoEncontradoException.class,
+                () -> repo.buscarPorLogin("fulano"));
+
+        assertTrue(e.getMessage().contains("fulano"));
     }
 
     @Test

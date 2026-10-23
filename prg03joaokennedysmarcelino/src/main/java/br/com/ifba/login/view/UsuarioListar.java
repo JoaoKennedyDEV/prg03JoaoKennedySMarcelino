@@ -6,6 +6,12 @@ package br.com.ifba.login.view;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import br.com.ifba.usuario.entity.Usuario;
+import br.com.ifba.usuario.exception.ErroDePersistenciaException;
+import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
+import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UsuarioListar extends javax.swing.JFrame {
     
+    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
+    private List<Usuario> usuariosExibidos = new ArrayList<>();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioListar.class.getName());
 
     /**
@@ -20,8 +28,32 @@ public class UsuarioListar extends javax.swing.JFrame {
      */
     public UsuarioListar() {
         initComponents();
+        recarregar();
+    }
+    
+    public void recarregar() {
+        try {
+            carregarTabela(repositorio.listarTodos());
+        } catch (ErroDePersistenciaException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
+    private void carregarTabela(List<Usuario> usuarios) {
+        usuariosExibidos = usuarios;
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        modelo.setRowCount(0);
+        for (Usuario u : usuarios) {
+            modelo.addRow(new Object[]{
+                u.getPessoa().getNome(),
+                u.getPerfilAtivo() == null ? "-" : u.getPerfilAtivo().getNome(),
+                u.getStatus(),
+                "Remover",
+                "Editar"
+            });
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,7 +76,6 @@ public class UsuarioListar extends javax.swing.JFrame {
         txtBuscar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         txtBuscar.setForeground(new java.awt.Color(153, 153, 153));
         txtBuscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtBuscar.setText("Procurar...");
         txtBuscar.addActionListener(this::txtBuscarActionPerformed);
         getContentPane().add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 130, -1));
 
@@ -84,15 +115,47 @@ public class UsuarioListar extends javax.swing.JFrame {
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
-        
+        String texto = txtBuscar.getText().trim();
+        try {
+            if (texto.isEmpty() || texto.equals("Procurar...")) {
+                carregarTabela(repositorio.listarTodos());
+            } else {
+                carregarTabela(repositorio.buscarPorNome(texto));
+            }
+        } catch (ErroDePersistenciaException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
+          new UsuarioCadastrar().setVisible(true);
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         // TODO add your handling code here:
+        int linha = table.rowAtPoint(evt.getPoint());
+        int coluna = table.columnAtPoint(evt.getPoint());
+        if (linha < 0) {
+            return;
+        }
+        Usuario selecionado = usuariosExibidos.get(linha);
+
+        if (coluna == 3) { // REMOVER
+            int opcao = JOptionPane.showConfirmDialog(this,
+                    "Remover " + selecionado.getPessoa().getNome() + "?",
+                    "Confirmar", JOptionPane.YES_NO_OPTION);
+            if (opcao == JOptionPane.YES_OPTION) {
+                try {
+                    repositorio.remover(selecionado.getLogin());
+                    recarregar();
+                } catch (UsuarioNaoEncontradoException | ErroDePersistenciaException e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else if (coluna == 4) { // EDITAR
+            new UsuarioEditar(selecionado, this).setVisible(true);
+        }
     }//GEN-LAST:event_tableMouseClicked
 
     /**
