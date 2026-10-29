@@ -9,6 +9,7 @@ package br.com.ifba.usuario.entity;
  *
  * @author kennedy
  */
+import br.com.ifba.infrastructure.entity.PersistenceEntity;
 import br.com.ifba.usuario.interfaces.Autenticavel;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Autenticavel{
+public class Usuario extends PersistenceEntity implements Autenticavel{
     @OneToOne(cascade = CascadeType.ALL)
     private Pessoa pessoa;
     @Transient
@@ -27,8 +28,7 @@ public class Usuario implements Autenticavel{
     private Perfil perfilAtivo; 
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Id
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String login;
     private String senha;
 

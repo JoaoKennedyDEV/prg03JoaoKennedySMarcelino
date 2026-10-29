@@ -7,9 +7,10 @@ package br.com.ifba.login.view;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import br.com.ifba.usuario.entity.Usuario;
-import br.com.ifba.usuario.exception.ErroDePersistenciaException;
+import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
-import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
+import br.com.ifba.usuario.dao.UsuarioDao;
+import br.com.ifba.usuario.dao.UsuarioIDao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class UsuarioListar extends javax.swing.JFrame {
     
-    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
+    private final UsuarioIDao dao = new UsuarioDao();
     private List<Usuario> usuariosExibidos = new ArrayList<>();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioListar.class.getName());
 
@@ -33,7 +34,7 @@ public class UsuarioListar extends javax.swing.JFrame {
     
     public void recarregar() {
         try {
-            carregarTabela(repositorio.listarTodos());
+            carregarTabela(dao.findAll());
         } catch (ErroDePersistenciaException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -118,9 +119,9 @@ public class UsuarioListar extends javax.swing.JFrame {
         String texto = txtBuscar.getText().trim();
         try {
             if (texto.isEmpty() || texto.equals("Procurar...")) {
-                carregarTabela(repositorio.listarTodos());
+                carregarTabela(dao.findAll());
             } else {
-                carregarTabela(repositorio.buscarPorNome(texto));
+                carregarTabela(dao.findByNome(texto));
             }
         } catch (ErroDePersistenciaException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -129,7 +130,7 @@ public class UsuarioListar extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
-          new UsuarioCadastrar().setVisible(true);
+        new UsuarioCadastrar(this).setVisible(true);
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
@@ -147,7 +148,7 @@ public class UsuarioListar extends javax.swing.JFrame {
                     "Confirmar", JOptionPane.YES_NO_OPTION);
             if (opcao == JOptionPane.YES_OPTION) {
                 try {
-                    repositorio.remover(selecionado.getLogin());
+                    dao.delete(selecionado);
                     recarregar();
                 } catch (UsuarioNaoEncontradoException | ErroDePersistenciaException e) {
                     JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

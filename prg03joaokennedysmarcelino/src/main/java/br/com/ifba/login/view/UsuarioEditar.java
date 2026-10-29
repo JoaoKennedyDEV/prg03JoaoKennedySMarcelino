@@ -4,20 +4,14 @@
  */
 package br.com.ifba.login.view;
 
-import br.com.ifba.login.view.Login;
 import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Status;
-import br.com.ifba.usuario.entity.Usuario;
-import br.com.ifba.usuario.entity.UsuarioAdmin;
-import br.com.ifba.usuario.entity.UsuarioBasico;
-import br.com.ifba.usuario.interfaces.Autenticavel;
-import br.com.ifba.usuario.repository.RepositorioUsuarioEmMemoria;
-import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
-import br.com.ifba.usuario.exception.ErroDePersistenciaException;
+import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
-import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
+import br.com.ifba.usuario.dao.UsuarioDao;
+import br.com.ifba.usuario.dao.UsuarioIDao;
 import br.com.ifba.usuario.entity.Usuario;
 
 /**
@@ -29,7 +23,7 @@ public class UsuarioEditar extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioEditar.class.getName());
 
     private UsuarioListar telaListar;
-    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
+    private final UsuarioIDao dao = new UsuarioDao();
     
     private Usuario usuario;
     public UsuarioEditar() {
@@ -51,7 +45,7 @@ public class UsuarioEditar extends javax.swing.JFrame {
     private void preencherCampos() {
         txtNomeCad.setText(usuario.getPessoa().getNome());
         txtCpfCad.setText(usuario.getPessoa().getCpf());
-        txtCpfCad.setEditable(false);   // CPF é o @Id de Pessoa: não pode mudar
+        txtCpfCad.setEditable(false);
         selectGen.setSelectedItem(usuario.getPessoa().getGenero());
         txtDataNascCad.setText(usuario.getPessoa().getDataNascimento());
         txtTelCad.setText(usuario.getPessoa().getTelefone());
@@ -235,7 +229,7 @@ public class UsuarioEditar extends javax.swing.JFrame {
                 usuario.setSenha(senha);
             }
             try {
-                repositorio.atualizar(usuario);
+                dao.update(usuario);
                 telaListar.recarregar();
                 dispose();
             } catch (UsuarioNaoEncontradoException | ErroDePersistenciaException e) {

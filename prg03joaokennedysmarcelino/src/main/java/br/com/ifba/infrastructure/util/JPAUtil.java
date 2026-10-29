@@ -15,7 +15,6 @@ import jakarta.persistence.Persistence;
 
 public class JPAUtil {
 
-
     private static final EntityManagerFactory FACTORY =
             Persistence.createEntityManagerFactory("com.mycompany_prg03joaokennedysmarcelino_jar_1.0-SNAPSHOTPU");
 
