@@ -4,18 +4,18 @@
  */
 package br.com.ifba.usuario.entity;
 
+import br.com.ifba.infrastructure.entity.PersistenceEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
 /**
  *
  * @author kennedy
  */
 @Entity
-public class Pessoa {
+public class Pessoa extends PersistenceEntity{
     
     private String nome;
-    @Id
+    @Column(unique = true)
     private String cpf;
     private String genero;
     private String dataNascimento;

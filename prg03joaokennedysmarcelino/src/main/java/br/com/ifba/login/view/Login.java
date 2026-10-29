@@ -12,9 +12,10 @@ import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.entity.UsuarioAdmin;
 import br.com.ifba.usuario.entity.UsuarioBasico;
-import br.com.ifba.usuario.exception.ErroDePersistenciaException;
+import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.interfaces.Autenticavel;
-import br.com.ifba.usuario.repository.RepositorioUsuarioJpa;
+import br.com.ifba.usuario.dao.UsuarioDao;
+import br.com.ifba.usuario.dao.UsuarioIDao;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-    private final RepositorioUsuarioJpa repositorio = new RepositorioUsuarioJpa();
+    private final UsuarioIDao dao = new UsuarioDao();
     /**
      * Creates new form Login
      */
@@ -124,7 +125,7 @@ public class Login extends javax.swing.JFrame {
         String logindigitado = txtLogin.getText();
         String senhaDigitada = txtPassword.getText();
         try {
-            Usuario usuario = repositorio.buscarPorLogin(logindigitado);
+            Usuario usuario = dao.findByLogin(logindigitado);
             String resultado = usuario.autenticar(logindigitado, senhaDigitada);
             JOptionPane.showMessageDialog(null, resultado);
         } catch (UsuarioNaoEncontradoException e) {
