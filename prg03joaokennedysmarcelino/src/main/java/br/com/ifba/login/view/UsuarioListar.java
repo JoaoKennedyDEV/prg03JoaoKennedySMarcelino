@@ -11,6 +11,7 @@ import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 import br.com.ifba.usuario.dao.UsuarioDao;
 import br.com.ifba.usuario.dao.UsuarioIDao;
+import org.flywaydb.core.Flyway;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -179,7 +180,11 @@ public class UsuarioListar extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        Flyway flyway = Flyway.configure()
+                .dataSource("jdbc:postgresql://localhost:5432/prg03",
+                            "postgres", System.getenv("DB_SENHA"))
+                .load();
+        flyway.migrate();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new UsuarioListar().setVisible(true));
     }

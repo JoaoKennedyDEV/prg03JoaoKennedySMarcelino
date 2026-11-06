@@ -21,20 +21,20 @@ public class UsuarioDaoTest {
     private final UsuarioIDao dao = new UsuarioDao();
 
     @Test
-    void saveNuloLancaErroDePersistencia() {
+    void salvarNuloLancaErro() {
         assertThrows(ErroDePersistenciaException.class, () -> dao.save(null));
     }
 
     @Test
-    void findByLoginInexistenteLancaNaoEncontrado() {
+    void LoginInexistenteLancaNaoEncontrado() {
         assertThrows(UsuarioNaoEncontradoException.class,
                 () -> dao.findByLogin("login_que_nao_existe_xyz"));
     }
 
     @Test
-    void loginDuplicadoLancaErroDePersistencia() {
-        Usuario a = new Usuario(new Pessoa("Teste Um", "999.999.999-01"), "duplicado_t1", "senha1234");
-        Usuario b = new Usuario(new Pessoa("Teste Dois", "999.999.999-02"), "duplicado_t1", "senha1234");
+    void loginDuplicadoLancaErro() {
+        Usuario a = new Usuario(new Pessoa("Teste Um", "001.002.003-09"), "teste1", "senha1234");
+        Usuario b = new Usuario(new Pessoa("Teste Dois", "004.003.002-01"), "teste1", "senha1234");
         dao.save(a);
         try {
             assertThrows(ErroDePersistenciaException.class, () -> dao.save(b));
