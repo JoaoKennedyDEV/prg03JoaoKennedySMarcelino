@@ -9,8 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
-import br.com.ifba.usuario.dao.UsuarioDao;
-import br.com.ifba.usuario.dao.UsuarioIDao;
+import br.com.ifba.usuario.controller.UsuarioIController;
 import org.flywaydb.core.Flyway;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,21 +20,22 @@ import java.util.List;
  */
 public class UsuarioListar extends javax.swing.JFrame {
     
-    private final UsuarioIDao dao = new UsuarioDao();
+    private final UsuarioIController controller;
     private List<Usuario> usuariosExibidos = new ArrayList<>();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioListar.class.getName());
 
     /**
      * Creates new form UsuarioEditar
      */
-    public UsuarioListar() {
+    public UsuarioListar(UsuarioIController controller) {
+        this.controller = controller;
         initComponents();
         recarregar();
     }
     
     public void recarregar() {
         try {
-            carregarTabela(dao.findAll());
+            carregarTabela(controller.findAll());
         } catch (ErroDePersistenciaException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -120,9 +120,9 @@ public class UsuarioListar extends javax.swing.JFrame {
         String texto = txtBuscar.getText().trim();
         try {
             if (texto.isEmpty() || texto.equals("Procurar...")) {
-                carregarTabela(dao.findAll());
+                carregarTabela(controller.findAll());
             } else {
-                carregarTabela(dao.findByNome(texto));
+                carregarTabela(controller.findByNome(texto));
             }
         } catch (ErroDePersistenciaException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -131,7 +131,7 @@ public class UsuarioListar extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
-        new UsuarioCadastrar(this).setVisible(true);
+        new UsuarioCadastrar(controller, this);
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
@@ -149,45 +149,17 @@ public class UsuarioListar extends javax.swing.JFrame {
                     "Confirmar", JOptionPane.YES_NO_OPTION);
             if (opcao == JOptionPane.YES_OPTION) {
                 try {
-                    dao.delete(selecionado);
+                    controller.delete(selecionado);
                     recarregar();
                 } catch (UsuarioNaoEncontradoException | ErroDePersistenciaException e) {
                     JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else if (coluna == 4) { // EDITAR
-            new UsuarioEditar(selecionado, this).setVisible(true);
+            new UsuarioEditar(controller, selecionado, this).setVisible(true); 
         }
     }//GEN-LAST:event_tableMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        Flyway flyway = Flyway.configure()
-                .dataSource("jdbc:postgresql://localhost:5432/prg03",
-                            "postgres", System.getenv("DB_SENHA"))
-                .load();
-        flyway.migrate();
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new UsuarioListar().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;

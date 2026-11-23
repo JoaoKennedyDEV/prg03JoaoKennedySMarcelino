@@ -83,7 +83,7 @@ public class Usuario extends PersistenceEntity implements Autenticavel{
         this.login = login;
     }
 
-    private String getSenha() {
+    public String getSenha() {
         return senha;
     }
 

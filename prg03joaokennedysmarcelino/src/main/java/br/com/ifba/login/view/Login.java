@@ -14,8 +14,7 @@ import br.com.ifba.usuario.entity.UsuarioAdmin;
 import br.com.ifba.usuario.entity.UsuarioBasico;
 import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.interfaces.Autenticavel;
-import br.com.ifba.usuario.dao.UsuarioDao;
-import br.com.ifba.usuario.dao.UsuarioIDao;
+import br.com.ifba.usuario.controller.UsuarioIController;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
@@ -24,11 +23,12 @@ import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-    private final UsuarioIDao dao = new UsuarioDao();
+    private final UsuarioIController controller;
     /**
      * Creates new form Login
      */
-    public Login() {
+    public Login(UsuarioIController controller) {
+        this.controller = controller;
         initComponents();
         Pessoa p1 = new Pessoa("Kennedy Santos", "00400300201");
         Pessoa p2 = new Pessoa("joao kennedy", "00100200304");
@@ -125,9 +125,11 @@ public class Login extends javax.swing.JFrame {
         String logindigitado = txtLogin.getText();
         String senhaDigitada = txtPassword.getText();
         try {
-            Usuario usuario = dao.findByLogin(logindigitado);
+            Usuario usuario = controller.findByLogin(logindigitado); 
             String resultado = usuario.autenticar(logindigitado, senhaDigitada);
             JOptionPane.showMessageDialog(null, resultado);
+            this.dispose();
+            new UsuarioListar(controller).setVisible(true); 
         } catch (UsuarioNaoEncontradoException e) {
             // mensagem genérica: não revela se o login existe
             JOptionPane.showMessageDialog(null, "Acesso Negado", " Erro no Login!", JOptionPane.ERROR_MESSAGE);
@@ -144,34 +146,9 @@ public class Login extends javax.swing.JFrame {
     private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseClicked
         // TODO add your handling code here:
         this.dispose();
-        new UsuarioCadastrar().setVisible(true);
+        new UsuarioCadastrar(controller).setVisible(true); 
     }//GEN-LAST:event_linkRegisterMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnter;

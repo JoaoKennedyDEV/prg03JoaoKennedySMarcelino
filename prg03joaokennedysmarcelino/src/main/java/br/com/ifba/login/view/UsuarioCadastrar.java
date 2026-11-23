@@ -13,31 +13,30 @@ import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.entity.UsuarioAdmin;
 import br.com.ifba.usuario.entity.UsuarioBasico;
+import br.com.ifba.usuario.controller.UsuarioIController;
 import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
-import br.com.ifba.usuario.dao.PessoaDao;
-import br.com.ifba.usuario.dao.PessoaIDao;
 import br.com.ifba.usuario.interfaces.Autenticavel;
-import br.com.ifba.usuario.dao.UsuarioDao;
-import br.com.ifba.usuario.dao.UsuarioIDao;
+import br.com.ifba.infrastructure.exception.NegocioException;
 import br.com.ifba.usuario.util.ProcessoDeAcesso;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
 import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
 public class UsuarioCadastrar extends javax.swing.JFrame {
     
-    private final PessoaIDao pessoaDao = new PessoaDao();
-    private final UsuarioIDao dao = new UsuarioDao();
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioCadastrar.class.getName());
+    private final UsuarioIController controller;
     private UsuarioListar telaListar;
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioCadastrar.class.getName());
     /**
      * Creates new form UsuarioCadastrar
      */
-    public UsuarioCadastrar() {
-        this(null);                       // aberto pelo Login, sem lista para atualizar
+    public UsuarioCadastrar(UsuarioIController controller) {
+        this(controller, null);
     }
 
-    public UsuarioCadastrar(UsuarioListar telaListar) {
+    public UsuarioCadastrar(UsuarioIController controller, UsuarioListar telaListar) {
         initComponents();
+        this.controller = controller;
         this.telaListar = telaListar;
     }
     /**
@@ -192,85 +191,46 @@ public class UsuarioCadastrar extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();  
+        if (telaListar == null) {
+            new Login(controller).setVisible(true);
+        }
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-        String nome = txtNomeCad.getText();
-        String login = txtLoginCad.getText();
-        String cpf = txtCpfCad.getText();
         String senha = passSenhaCad.getText();
-        String genero = selectGen.getSelectedItem().toString();
-        String DataNascimento = txtDataNascCad.getText();
-        String Telefone = txtTelCad.getText();
-        String email = txtEmailCad.getText();
         String confirSenha = new String(passSenhaCadConfi.getPassword());
-        if(!Validar.nomeValido(nome)){
-            JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.cpfValido(cpf)){
-            JOptionPane.showMessageDialog(null,"Campo de CPF esta incompleto!\n   Tente novamente!","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.dataNascimentoValida(DataNascimento)){
-            JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleto!\n   Tente novamente!","Data de nascimento Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.telefoneValido(Telefone)){
-            JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!\n   Tente novamente!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.loginValido(login)){
-            JOptionPane.showMessageDialog(null,"Login incorreto minimo de 5 caracteres!\n   Tente novamente!","Login Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.senhasIguais(senha, confirSenha)){
+        if(!Validar.senhasIguais(senha, confirSenha)){
             JOptionPane.showMessageDialog(null,"As Senhas não coincidem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.senhaForte(senha)){
-            JOptionPane.showMessageDialog(null,"Senha minima de 5 caracteres\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(Validar.contemPalavraProibida(login)){
-            JOptionPane.showMessageDialog(null,"Login contém palavra não permitida.","Login Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(dao.existePorLogin(login)){
-            JOptionPane.showMessageDialog(null,"Login ja existe."," Erro no Login!",JOptionPane.ERROR_MESSAGE);
-        }else if(pessoaDao.findByCpf(cpf) != null){
-            JOptionPane.showMessageDialog(null,"CPF ja cadastrado.","CPF Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else{
-            Pessoa pessoa = new Pessoa(txtNomeCad.getText(),txtCpfCad.getText());
-            Usuario usuario = new Usuario(pessoa,txtLoginCad.getText(),passSenhaCad.getText());
-
-            pessoa.setGenero(selectGen.getSelectedItem().toString());
-            pessoa.setDataNascimento(txtDataNascCad.getText());
-            pessoa.setTelefone(txtTelCad.getText());
-            pessoa.setEmail(txtEmailCad.getText());
-            try {
-                dao.save(usuario);
-                if (telaListar != null) {
-                    telaListar.recarregar();
-                }
-                JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                
-            }catch (ErroDePersistenciaException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao cadastrar", JOptionPane.ERROR_MESSAGE);
-            }
+            return;
         }
+        Pessoa pessoa = new Pessoa(txtNomeCad.getText(),txtCpfCad.getText());
+
+        pessoa.setGenero(selectGen.getSelectedItem().toString());
+        pessoa.setDataNascimento(txtDataNascCad.getText());
+        pessoa.setTelefone(txtTelCad.getText());
+        pessoa.setEmail(txtEmailCad.getText()); 
+
+        Usuario usuario = new Usuario(pessoa,txtLoginCad.getText(),passSenhaCad.getText());
+        try {
+            controller.save(usuario);
+            if (telaListar != null) {
+                telaListar.recarregar();
+            }
+            JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            if (telaListar == null) {
+                new Login(controller).setVisible(true);
+            }
+
+        }catch (NegocioException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Dados inválidos", JOptionPane.ERROR_MESSAGE);
+        } catch (ErroDePersistenciaException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao cadastrar", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnConfirmActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new UsuarioCadastrar().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
