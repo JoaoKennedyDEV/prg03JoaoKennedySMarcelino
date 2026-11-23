@@ -8,10 +8,10 @@ import br.com.ifba.usuario.entity.Pessoa;
 import br.com.ifba.usuario.entity.Status;
 import br.com.ifba.usuario.validar.Validar;
 import javax.swing.JOptionPane;
+import br.com.ifba.infrastructure.exception.NegocioException;
+import br.com.ifba.usuario.controller.UsuarioIController;
 import br.com.ifba.infrastructure.exception.ErroDePersistenciaException;
 import br.com.ifba.usuario.exception.UsuarioNaoEncontradoException;
-import br.com.ifba.usuario.dao.UsuarioDao;
-import br.com.ifba.usuario.dao.UsuarioIDao;
 import br.com.ifba.usuario.entity.Usuario;
 
 /**
@@ -23,20 +23,15 @@ public class UsuarioEditar extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsuarioEditar.class.getName());
 
     private UsuarioListar telaListar;
-    private final UsuarioIDao dao = new UsuarioDao();
-    
-    private Usuario usuario;
-    public UsuarioEditar() {
-        initComponents();
-        //setLocationRelativeTo(null);
+    private final UsuarioIController controller;
+    private Usuario usuario;  
 
-    }
     
-    public UsuarioEditar(Usuario usuario, UsuarioListar telaListar) {
-        this();
+    public UsuarioEditar(UsuarioIController controller, Usuario usuario, UsuarioListar telaListar) {
+        initComponents();
+        this.controller = controller;
         this.usuario = usuario;
         this.telaListar = telaListar;
-        // fechar só esta janela, sem encerrar o programa inteiro
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         preencherCampos();
@@ -200,72 +195,40 @@ public class UsuarioEditar extends javax.swing.JFrame {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-        
-        String nome = txtNomeCad.getText();
-        String dataNasc = txtDataNascCad.getText();
-        String telefone = txtTelCad.getText();
+   
         String senha = new String(passSenhaCad.getPassword());
         String confirSenha = new String(passSenhaCadConfi.getPassword());
 
-        if(!Validar.nomeValido(nome)){
-            JOptionPane.showMessageDialog(null,"Digite um nome Valido","Nome Invalido!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.dataNascimentoValida(dataNasc)){
-            JOptionPane.showMessageDialog(null,"Data de nascimento esta incompleta!","Data Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(!Validar.telefoneValido(telefone)){
-            JOptionPane.showMessageDialog(null,"Numero de Telefone esta incompleto!","Telefone Incorreto!",JOptionPane.ERROR_MESSAGE);
-        }else if(!senha.isEmpty() && !Validar.senhasIguais(senha, confirSenha)){
+        if(!senha.isEmpty() && !Validar.senhasIguais(senha, confirSenha)){
             JOptionPane.showMessageDialog(null,"As Senhas não coincidem!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else if(!senha.isEmpty() && !Validar.senhaForte(senha)){
-            JOptionPane.showMessageDialog(null,"Senha com no minimo 8 caracteres","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
-        }else{
-            Pessoa pessoa = usuario.getPessoa();
-            pessoa.setNome(nome);
-            pessoa.setGenero(selectGen.getSelectedItem().toString());
-            pessoa.setDataNascimento(dataNasc);
-            pessoa.setTelefone(telefone);
-            pessoa.setEmail(txtEmailCad.getText());
-            usuario.setStatus(Status.valueOf(selectStatus.getSelectedItem().toString()));
-            if (!senha.isEmpty()) {
-                usuario.setSenha(senha);
-            }
-            try {
-                dao.update(usuario);
-                telaListar.recarregar();
-                dispose();
-            } catch (UsuarioNaoEncontradoException | ErroDePersistenciaException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao atualizar", JOptionPane.ERROR_MESSAGE);
-            }
+            return;
         }
+        
+        Pessoa pessoa = usuario.getPessoa();
+        pessoa.setNome(txtNomeCad.getText());
+        pessoa.setGenero(selectGen.getSelectedItem().toString());
+        pessoa.setDataNascimento(txtDataNascCad.getText());
+        pessoa.setTelefone(txtTelCad.getText());
+        pessoa.setEmail(txtEmailCad.getText());
+        usuario.setStatus(Status.valueOf(selectStatus.getSelectedItem().toString()));
+        if (!senha.isEmpty()) {
+            usuario.setSenha(senha);
+        }
+        try {
+            controller.update(usuario);
+            telaListar.recarregar();
+            dispose();
+        } catch (NegocioException | UsuarioNaoEncontradoException | ErroDePersistenciaException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao atualizar", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void txtNomeCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeCadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeCadActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new UsuarioEditar().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
