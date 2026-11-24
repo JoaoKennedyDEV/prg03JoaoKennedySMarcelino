@@ -1,4 +1,5 @@
 Task 1
+
 S - UsuarioDao na linha 19 o DAO so salva e busca no banco. As regras ficam no UsuarioService
 
 O - PessoaDao na linha 18 Criei o PessoaDao estendendo o GenericDao assim não precisa mexer no GenericDao
