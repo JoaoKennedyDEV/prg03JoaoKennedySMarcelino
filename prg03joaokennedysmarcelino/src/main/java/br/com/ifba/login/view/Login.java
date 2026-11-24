@@ -121,17 +121,17 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
-        // TODO add your handling code here:
-        String logindigitado = txtLogin.getText();
+
+        String loginDigitado = txtLogin.getText();
         String senhaDigitada = txtPassword.getText();
         try {
-            Usuario usuario = controller.findByLogin(logindigitado); 
-            String resultado = usuario.autenticar(logindigitado, senhaDigitada);
+            Usuario usuario = controller.findByLogin(loginDigitado); 
+            String resultado = usuario.autenticar(loginDigitado, senhaDigitada);
             JOptionPane.showMessageDialog(null, resultado);
             this.dispose();
             new UsuarioListar(controller).setVisible(true); 
         } catch (UsuarioNaoEncontradoException e) {
-            // mensagem genérica: não revela se o login existe
+            // mensagem generica não revela se o login existe preservando a privacidade dos dados
             JOptionPane.showMessageDialog(null, "Acesso Negado", " Erro no Login!", JOptionPane.ERROR_MESSAGE);
         } catch (ErroDePersistenciaException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -139,12 +139,12 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnterActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtPasswordActionPerformed
 
-    //Link para tela de cadastro
+
     private void linkRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkRegisterMouseClicked
-        // TODO add your handling code here:
+        // fecha a tela de login e abre a tela de cadastro, devolve o usuario a tela de login ao terminar
         this.dispose();
         new UsuarioCadastrar(controller).setVisible(true); 
     }//GEN-LAST:event_linkRegisterMouseClicked

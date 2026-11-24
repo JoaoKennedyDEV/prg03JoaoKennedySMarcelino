@@ -197,9 +197,9 @@ public class UsuarioEditar extends javax.swing.JFrame {
         // TODO add your handling code here:
    
         String senha = new String(passSenhaCad.getPassword());
-        String confirSenha = new String(passSenhaCadConfi.getPassword());
+        String confirmacaoSenha = new String(passSenhaCadConfi.getPassword());
 
-        if(!senha.isEmpty() && !Validar.senhasIguais(senha, confirSenha)){
+        if(!senha.isEmpty() && !Validar.senhasIguais(senha, confirmacaoSenha)){
             JOptionPane.showMessageDialog(null,"As Senhas não coincidem!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
             return;
         }

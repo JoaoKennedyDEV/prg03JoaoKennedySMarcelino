@@ -113,10 +113,18 @@ public class Usuario extends PersistenceEntity implements Autenticavel{
     
     @Override
     public String autenticar(String login, String senha) {
-        if (this.login.equals(login) && this.senha.equals(senha)) {
-                return "Bem-vindo, " + login;
+        if (credenciaisValidas(login, senha)) {
+            return mensagemDeBoasVindas(login);
         }
         return "Acesso negado";
+    }
+    
+    protected boolean credenciaisValidas(String login, String senha) {
+        return this.login.equals(login) && this.senha.equals(senha);
+    }
+    
+    protected String mensagemDeBoasVindas(String login) {
+        return "Bem-vindo, " + login;
     }
     
     @Override

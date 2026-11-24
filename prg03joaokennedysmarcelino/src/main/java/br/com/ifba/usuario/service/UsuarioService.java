@@ -31,18 +31,18 @@ public class UsuarioService implements UsuarioIService {
         if (usuario == null || usuario.getPessoa() == null) {
             throw new NegocioException("Dados do usuário não informados");
         }
-        Pessoa p = usuario.getPessoa();
+        Pessoa pessoa = usuario.getPessoa();
 
-        if (!Validar.nomeValido(p.getNome())) {
+        if (!Validar.nomeValido(pessoa.getNome())) {
             throw new NegocioException("Digite um nome válido (mínimo 8 caracteres)");
         }
-        if (!Validar.cpfValido(p.getCpf())) {
+        if (!Validar.cpfValido(pessoa.getCpf())) {
             throw new NegocioException("Campo de CPF está incompleto");
         }
-        if (!Validar.dataNascimentoValida(p.getDataNascimento())) {
+        if (!Validar.dataNascimentoValida(pessoa.getDataNascimento())) {
             throw new NegocioException("Data de nascimento está incompleta");
         }
-        if (!Validar.telefoneValido(p.getTelefone())) {
+        if (!Validar.telefoneValido(pessoa.getTelefone())) {
             throw new NegocioException("Número de telefone está incompleto");
         }
         if (!Validar.loginValido(usuario.getLogin())) {
@@ -57,7 +57,7 @@ public class UsuarioService implements UsuarioIService {
         if (dao.existePorLogin(usuario.getLogin())) {
             throw new NegocioException("Login já existe");
         }
-        if (pessoaDao.findByCpf(p.getCpf()) != null) {
+        if (pessoaDao.findByCpf(pessoa.getCpf()) != null) {
             throw new NegocioException("CPF já cadastrado");
         }
 
@@ -69,15 +69,15 @@ public class UsuarioService implements UsuarioIService {
         if (usuario == null || usuario.getPessoa() == null) {
             throw new NegocioException("Dados do usuário não informados");
         }
-        Pessoa p = usuario.getPessoa();
+        Pessoa pessoa = usuario.getPessoa();
 
-        if (!Validar.nomeValido(p.getNome())) {
+        if (!Validar.nomeValido(pessoa.getNome())) {
             throw new NegocioException("Digite um nome válido (mínimo 8 caracteres)");
         }
-        if (!Validar.dataNascimentoValida(p.getDataNascimento())) {
+        if (!Validar.dataNascimentoValida(pessoa.getDataNascimento())) {
             throw new NegocioException("Data de nascimento está incompleta");
         }
-        if (!Validar.telefoneValido(p.getTelefone())) {
+        if (!Validar.telefoneValido(pessoa.getTelefone())) {
             throw new NegocioException("Número de telefone está incompleto");
         }
         if (!Validar.senhaForte(usuario.getSenha())) {

@@ -23,11 +23,7 @@ public class UsuarioAdmin extends Usuario{
     }
     
     @Override
-    public String autenticar(String login, String senha) {
-        String resultado = super.autenticar(login, senha);
-        if (resultado.equals("Bem-vindo, " + login)) {
-            return "Acesso administrativo liberado: " + login;
-        }
-        return resultado;
+    protected String mensagemDeBoasVindas(String login) {
+        return "Acesso administrativo liberado: " + login;
     }
 }
