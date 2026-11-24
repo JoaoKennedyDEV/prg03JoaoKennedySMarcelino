@@ -26,7 +26,7 @@ public class UsuarioDaoTest {
     }
 
     @Test
-    void LoginInexistenteLancaNaoEncontrado() {
+    void loginInexistenteLancaNaoEncontrado() {
         assertThrows(UsuarioNaoEncontradoException.class,
                 () -> dao.findByLogin("login_que_nao_existe_xyz"));
     }

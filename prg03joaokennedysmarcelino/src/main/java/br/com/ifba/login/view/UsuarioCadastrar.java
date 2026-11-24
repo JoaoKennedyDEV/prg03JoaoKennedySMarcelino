@@ -197,40 +197,55 @@ public class UsuarioCadastrar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        // TODO add your handling code here:
-        String senha = passSenhaCad.getText();
-        String confirSenha = new String(passSenhaCadConfi.getPassword());
-        if(!Validar.senhasIguais(senha, confirSenha)){
-            JOptionPane.showMessageDialog(null,"As Senhas não coincidem!\n   Tente novamente!","Senha Incorreta!",JOptionPane.ERROR_MESSAGE);
+        if (!senhasConferem()) {
+            mostrarErro("Senha Incorreta!", "As Senhas não coincidem!\n   Tente novamente!");
             return;
         }
-        Pessoa pessoa = new Pessoa(txtNomeCad.getText(),txtCpfCad.getText());
-
+        Usuario usuario = montarUsuario();
+        if (!salvarComFeedback(usuario)) {
+            return;
+        }
+        fecharTela();
+    }//GEN-LAST:event_btnConfirmActionPerformed
+    private boolean senhasConferem() {
+        String senha = passSenhaCad.getText();
+        String confirmacao = new String(passSenhaCadConfi.getPassword());
+        return Validar.senhasIguais(senha, confirmacao);
+    }
+    private Usuario montarUsuario() {
+        Pessoa pessoa = new Pessoa(txtNomeCad.getText(), txtCpfCad.getText());
         pessoa.setGenero(selectGen.getSelectedItem().toString());
         pessoa.setDataNascimento(txtDataNascCad.getText());
         pessoa.setTelefone(txtTelCad.getText());
-        pessoa.setEmail(txtEmailCad.getText()); 
-
-        Usuario usuario = new Usuario(pessoa,txtLoginCad.getText(),passSenhaCad.getText());
+        pessoa.setEmail(txtEmailCad.getText());
+        return new Usuario(pessoa, txtLoginCad.getText(), passSenhaCad.getText());
+    }
+    private boolean salvarComFeedback(Usuario usuario) {
         try {
             controller.save(usuario);
-            if (telaListar != null) {
-                telaListar.recarregar();
-            }
-            JOptionPane.showMessageDialog(null,"Usuario "+ usuario.getPessoa().getNome() + " Cadastrado com Suscesso!","Usuario Cadastrado!",JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-            if (telaListar == null) {
-                new Login(controller).setVisible(true);
-            }
-
-        }catch (NegocioException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Dados inválidos", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Usuario " + usuario.getPessoa().getNome() + " Cadastrado com Sucesso!",
+                    "Usuario Cadastrado!", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        } catch (NegocioException e) {
+            mostrarErro("Dados inválidos", e.getMessage());
         } catch (ErroDePersistenciaException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao cadastrar", JOptionPane.ERROR_MESSAGE);
+            mostrarErro("Erro ao cadastrar", e.getMessage());
         }
-
-    }//GEN-LAST:event_btnConfirmActionPerformed
-
+        return false;
+    }
+    private void fecharTela() {
+        if (telaListar != null) {
+            telaListar.recarregar();
+        }
+        dispose();
+        if (telaListar == null) {
+            new Login(controller).setVisible(true);
+        }
+    }
+    private void mostrarErro(String titulo, String mensagem) {
+        JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.ERROR_MESSAGE);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

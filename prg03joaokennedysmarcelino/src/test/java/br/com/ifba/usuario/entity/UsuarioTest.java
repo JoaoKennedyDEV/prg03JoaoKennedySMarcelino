@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class UsuarioTest {
     
     @Test
-    public void DeveautenticarQuandoDadosCorreto(){
+    public void deveautenticarQuandoDadosCorreto(){
         Pessoa pessoa = new Pessoa("Kennedy Santos", "12345678900");
         Usuario usuario = new Usuario(pessoa, "testLogin", "testSenha");
         
