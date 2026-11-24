@@ -15,4 +15,5 @@ I - em Login e UsuarioCadastrar as telas recebem o UsuarioIController inteiro, m
 obs: esqueci de explicar as correcoes que fiz no PR, mas corrigi o S e o O vou resumir aqui a correcao
 
 S. como o metodo fazia tudo em um so lugar separei ele em metodos pequenos, agora o botao apenas chamas esses metodos
+
 O. como o admin comparava o texto para saber se tinha dado certo, se tivesse alteracao na frase daria erro, entao separei o metodo autenticar em metodos menores e apenas chamo 1 desses metodos no UsuarioAdmin
